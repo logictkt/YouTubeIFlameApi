@@ -1,0 +1,31 @@
+%h1 YouTube IFlame API TEST
+
+#mikan
+
+:javascript
+  var tag = document.createElement('script');
+
+  tag.src = 'https://www.youtube.com/iframe_api';
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('mikan', { // iframeを表示させる html の id を指定
+      height: '360',
+      width: '640',
+      videoId: 'vXcuUti26QY', // YouTube の VideoID を指定
+      events: {
+        'onStateChange': onPlayerStateChange // https://developers.google.com/youtube/iframe_api_reference?hl=ja#Events
+      }
+    });
+  }
+
+  var done = false;
+  function onPlayerStateChange(event) {
+    // video のイベントが再生中に変わった && done が false の時
+    if (event.data == YT.PlayerState.PLAYING && !done) {
+      alert('play !');
+      done = true; // done は最初の再生かどうかを判定するための変数
+    }
+  }
